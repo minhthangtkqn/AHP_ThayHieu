@@ -1,0 +1,8 @@
+﻿Tinh theo 2 co so:
+	- Nguoi dung (User)
+	- San pham (Item)
+1. Tính sim(cos) hoặc pearson
+2. tính trung bình của mỗi user/item (dùng cho pearson)
+3.
+	Dùng công thức độ lệch tương ứng với pearson,
+	Dùng công thức tổng tương ứng với sim(cos)
