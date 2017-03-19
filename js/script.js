@@ -47,15 +47,33 @@ function taoMaTran() {
                         }
                     }
                 } //end for column
-                // đã có các ma trận với đường chéo 1 và các giá trị ở nửa trên ma trận
-                // giờ sẽ đảo các giá trị sang nửa kia ma trận
 
             } //end for row
+            // đã có các ma trận với đường chéo 1 và các giá trị ở nửa trên ma trận
+            // giờ sẽ đảo các giá trị sang nửa kia ma trận
+            for (row = 0; row < levelElementAmount[level]; row++) {
+                //for theo column
+                for (column = 0; column < levelElementAmount[level]; column++) {
+                    if (row > 0 && row < levelElementAmount[level] && column >= 0 && column < row) {
+                        matrix[level][matrixNumber][row][column] = 1 / matrix[level][matrixNumber][column][row];
+                    }
+                }
+            } //end đảo giá trị
+            //SHOW TIME
+            for (row = 0; row < levelElementAmount[level]; row++) {
+                //for theo column
+                for (column = 0; column < levelElementAmount[level]; column++) {
+                    container.appendChild(document.createTextNode(matrix[level][matrixNumber][row][column] + "   "));
+                }
+                //xuống dòng sau khi in 1 hàng
+                container.appendChild(document.createElement("br"));
+            }
+            container.appendChild(document.createElement("br"));
+            container.appendChild(document.createElement("br"));
+
+
         } //end for matrix number
     } //end for level
-
-
-
 
 }
 
@@ -140,7 +158,12 @@ function nhapDuLieuMaTran() {
 
     } // end for level
 
-    taoMaTran();
+    var btnTaoMaTran = addButton("btnTaoMaTran", "", "Tạo ma trận");
+    btnTaoMaTran.addEventListener("click", function () {
+        taoMaTran();
+    });
+    container.appendChild(btnTaoMaTran);
+    container.appendChild(document.createElement("br"));
 }
 
 function clearScreen() {
