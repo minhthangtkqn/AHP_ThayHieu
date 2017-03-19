@@ -5,6 +5,9 @@ var container = "";
 var levelElementAmount = []; // số tiêu chí trong từng bậc
 var levelElementName = []; // mảng 2 chiều lưu tên các tiêu chí 
 
+var matrix = [];
+var matrixAmount = [];
+
 function addDropDown(row, column) {
     var select = document.createElement("select");
     select.id = "select_" + (row - 1) + "_" + (column - 1);
@@ -19,22 +22,63 @@ function addDropDown(row, column) {
     return select;
 }
 
+function taoMaTran() {
+    //theo level
+    for (level = 0; level < levelAmount; level++) {
+        matrix.push([]);
+
+        //theo số lượng ma trận trong level
+        for (matrixNumber = 0; matrixNumber < matrixAmount[level]; matrixNumber++) {
+            matrix[level].push([]);
+
+            //for theo row
+            for (row = 0; row < levelElementAmount[level]; row++) {
+                matrix[level][matrixNumber].push([]);
+
+                //for theo column
+                for (column = 0; column < levelElementAmount[level]; column++) {
+                    if (row === column) {
+                        matrix[level][matrixNumber][row].push(1);
+                    } else {
+                        if (row >= 0 && row < levelElementAmount[level] - 1 && column > row && column < levelElementAmount[level]) {
+                            matrix[level][matrixNumber][row].push(document.getElementById("select_" + row + "_" + column).value);
+                        } else {
+                            matrix[level][matrixNumber][row].push(0);
+                        }
+                    }
+                } //end for column
+                // đã có các ma trận với đường chéo 1 và các giá trị ở nửa trên ma trận
+                // giờ sẽ đảo các giá trị sang nửa kia ma trận
+
+            } //end for row
+        } //end for matrix number
+    } //end for level
+
+
+
+
+}
+
 function nhapDuLieuMaTran() {
     //theo level
     for (level = 0; level < levelAmount; level++) {
+        container.appendChild(document.createTextNode("Tầng " + (level + 1)));
+
         // số lượng ma trận trong 1 bậc = số tiêu chí của bậc trên nó
-        var matrixAmount = 0;
         if (level === 0) {
-            matrixAmount = 1;
+            matrixAmount.push(1);
         } else {
-            matrixAmount = levelElementAmount[level - 1];
+            matrixAmount.push(levelElementAmount[level - 1]);
         }
 
+
         //for theo số lượng ma trận
-        for (matrixNumber = 0; matrixNumber < matrixAmount; matrixNumber++) {
+        for (matrixNumber = 0; matrixNumber < matrixAmount[level]; matrixNumber++) {
             var table = document.createElement("table");
             table.id = "table_" + level + "_" + matrixNumber;
-            table.style = "width: 45%";
+            table.border = "2";
+            //            table.setAttribute("class", "table table-hover");
+            table.style = "width: 100%";
             container.appendChild(table);
 
             //theo số lượng tiêu chí của từng bậc --> lập ma trận
@@ -88,12 +132,15 @@ function nhapDuLieuMaTran() {
                     }
                 } //end for column
                 table.appendChild(currentRow);
-                table.appendChild(document.createElement("br"));
             } //end for row
+            container.appendChild(document.createElement("br"));
 
-        }
+        } //end for so luong ma tran
+        container.appendChild(document.createElement("br"));
 
-    }
+    } // end for level
+
+    taoMaTran();
 }
 
 function clearScreen() {
